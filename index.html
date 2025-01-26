@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Pey Gorn</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #eee;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .text {
+      font-size: 4rem;
+      font-weight: bold;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .letter {
+      opacity: 0;
+      transform: translateY(100px) scale(0.8) rotate(10deg);
+      animation: floatIn 2s ease-in-out forwards, colorPulse 3s infinite;
+    }
+
+    @keyframes floatIn {
+      0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.8) rotate(10deg);
+      }
+      50% {
+        opacity: 0.7;
+        transform: translateY(-20px) scale(1.1) rotate(-5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0);
+      }
+    }
+
+    @keyframes colorPulse {
+      0%, 100% {
+        color: #eee;
+      }
+      50% {
+        color: #f39c12;
+      }
+    }
+
+    .window {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 60%;
+      background: #fff;
+      border: 2px solid #ccc;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      resize: both;
+      overflow: hidden;
+    }
+
+    .window .topbar {
+      height: 30px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      cursor: move;
+      user-select: none;
+    }
+
+    .window iframe {
+      width: 100%;
+      height: calc(100% - 30px);
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="text" id="text">
+    <span class="letter">p</span>
+    <span class="letter">e</span>
+    <span class="letter">y</span>
+    <span class="letter">g</span>
+    <span class="letter">o</span>
+    <span class="letter">r</span>
+    <span class="letter">n</span>
+  </div>
+
+  <div class="window" id="window">
+    <div class="topbar">Drag Me</div>
+    <iframe src="https://play.szvy.win/embed.html#https://bing.com"></iframe>
+  </div>
+
+  <script>
+    const letters = document.querySelectorAll('.letter');
+    const windowElement = document.getElementById('window');
+    const topbar = windowElement.querySelector('.topbar');
+
+    letters.forEach((letter, index) => {
+      letter.style.animationDelay = `${index * 0.4}s`;
+    });
+
+    setTimeout(() => {
+      document.getElementById('text').style.display = 'none';
+      windowElement.style.display = 'block';
+    }, 3000);
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    topbar.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - windowElement.offsetLeft;
+      offsetY = e.clientY - windowElement.offsetTop;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        windowElement.style.left = `${e.clientX - offsetX}px`;
+        windowElement.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  </script>
+</body>
+</html>
